@@ -1,10 +1,12 @@
 
     <h2>Chat: </h2>
     <div class="terminal" >
+        <p *ngFor="let chatbotmessage of chatbotmessageList"> {{chatbotmessage?.sender == 1 ? 'Admin' : 'You'  }} : 
+                                                              {{chatbotmessage?.text}} </p>
     </div>
     <div class="message-box">
-        <form>
-            <input type="text"/>
+        <form [formGroup]="applyForm" (submit)="submitApplication()">
+            <input type="text"  formControlName="text"/>
             <button class="button"> Send </button>
          </form>
     </div>
