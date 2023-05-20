@@ -1,0 +1,68 @@
+.terminal {
+    position: relative;
+    width: 640px;
+    height: 480px;
+    border-radius: 6px;
+    padding-top: 8px;
+    margin-top: 8px;
+    overflow: auto;
+    background-color: rgb(15, 15, 16);
+  }
+
+  .terminal p {
+    font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace;
+    color: white;
+    padding: 0 1rem 1rem;
+    margin: 0;
+  }
+
+  .message-box {
+    position: relative;
+    width: 640px;
+    border-radius: 6px;
+    padding-top: 8px;
+    margin-top: 8px;
+    overflow: auto;
+  }
+
+
+  .message-box input[type=text] {
+    padding:10px;
+    width: 80%;
+    line-height: 1.5;
+    border-radius: 6px;
+    font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace;
+    font-size: medium;
+    color: black;
+  }
+  
+  .message-box button {
+    align-items: center;
+    appearance: button;
+    background-color: #1976d2;
+    border-radius: 6px;
+    border-style: none;
+    box-shadow: rgba(255, 255, 255, 0.26) 0 1px 2px inset;
+    box-sizing: border-box;
+    color: #fff;
+    cursor: pointer;
+    font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace;
+    font-size: 100%;
+    line-height: 1.5;
+    margin-left: 8px;
+    padding: 10px 21px;
+    text-align: center;
+    text-transform: none;
+    transition: color .13s ease-in-out,background .13s ease-in-out,opacity .13s ease-in-out,box-shadow .13s ease-in-out;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+  }
+  
+  .message-box button:active {
+    background-color: #006AE8;
+  }
+  
+  .message-box button:hover {
+    background-color: #1C84FF;
+  }
