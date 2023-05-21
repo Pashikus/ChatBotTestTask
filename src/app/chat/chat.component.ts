@@ -18,6 +18,7 @@ import { MessagingService } from '../messaging.service';
 
 export class ChatComponent {
   chatbotmessageList : Chatbotmessage[] = []  // List of messages
+  userID: number = 2;
   isActive : boolean ;
   messagingService: MessagingService = inject(MessagingService); 
 
@@ -36,7 +37,7 @@ export class ChatComponent {
   submitApplication() {
       
       
-      this.messagingService.submitApplication(2, this.applyForm.value.text ?? '');
+      this.messagingService.submitApplication(this.userID, this.applyForm.value.text ?? ''); 
       this.applyForm.reset();
       this.isActive = this.messagingService.getState();
   }
