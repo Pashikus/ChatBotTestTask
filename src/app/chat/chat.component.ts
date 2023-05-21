@@ -4,6 +4,7 @@ import { Chatbotmessage } from '../chatbotmessage';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MessagingService } from '../messaging.service';
 
+
 @Component({
   selector: 'app-chat',
   standalone: true,
@@ -16,24 +17,25 @@ import { MessagingService } from '../messaging.service';
 })
 
 export class ChatComponent {
-chatbotmessageList : Chatbotmessage[] = []  // List of messages
-isActive : boolean ;
-messagingService: MessagingService = inject(MessagingService);
+  chatbotmessageList : Chatbotmessage[] = []  // List of messages
+  isActive : boolean ;
+  messagingService: MessagingService = inject(MessagingService); 
 
+  constructor() {
+    this.chatbotmessageList = this.messagingService.getAllMessages();
+    this.isActive = this.messagingService.getState();
+  }
 
-constructor() {
-  this.chatbotmessageList = this.messagingService.getAllMessages();
-  this.isActive = this.messagingService.getState();
-}
-
-applyForm = new FormGroup({
-  text: new FormControl('')
-});
+// Create forms for template: 
+  applyForm = new FormGroup({
+    text: new FormControl('')
+  });
 
 
 
   submitApplication() {
-    
+      
+      
       this.messagingService.submitApplication(2, this.applyForm.value.text ?? '');
       this.applyForm.reset();
       this.isActive = this.messagingService.getState();

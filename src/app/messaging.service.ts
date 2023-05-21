@@ -1,5 +1,7 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Chatbotmessage } from './chatbotmessage';
+import { WeatherService } from './weather.service';
+
 
 @Injectable({
   providedIn: 'root'
@@ -10,6 +12,7 @@ export class MessagingService {
   isActive : boolean = true;
   readonly ADMIN_ID = 1;
   date = new Date();
+
   readonly days : string[] = [
     'Sunday', 
     'Monday', 
@@ -40,23 +43,18 @@ export class MessagingService {
     return this.isActive;
   }
 
-  constructor() { 
+  constructor(private ws : WeatherService) { 
 
   }
 
  /**
  * submitApplication
- * 
  * Submits an application and processes the user's input, generating appropriate responses.
- * 
  * @param sender: The ID of the sender/user. 1 - for Admin
  * @param text: The text message or input provided by the sender.
- * 
  * @returns void
- * 
  * @example
  * submitApplication(123, "What is the current time?");
- * 
  * Additional notes:
  * - If the text starts with '_', it will be ignored.
  * - if have weather in a sentence, the bot will reply with a question for location – once user reply with a location(could be city) – boot will reply with the current weather forecast – taken from external public weather API
@@ -76,26 +74,26 @@ export class MessagingService {
         text : text ?? ''
       });
       if (this.topic === ''){
-        if (text.toLowerCase().indexOf('day') > -1) {
+        if (RegExp("\\bday\\b").test(text)) {
           this.chatbotmessageList.push({
             id: this.chatbotmessageList.length + 1,  
             sender : this.ADMIN_ID,               
             text : this.days[this.date.getDay()]
             });
-        } else if (text.toLowerCase().indexOf('time') > -1) {
+        } else if (RegExp("\\btime\\b").test(text)) {
           this.chatbotmessageList.push({
             id: this.chatbotmessageList.length + 1,  
             sender : this.ADMIN_ID,               
             text : this.date.getHours().toString() + ':' + this.date.getMinutes().toString() + ':' + this.date.getSeconds().toString()
           });
-        } else if (text.toLowerCase().indexOf('weather') > -1) {
+        } else if (RegExp("\\bweather\\b").test(text)) {
           this.chatbotmessageList.push({
             id: this.chatbotmessageList.length + 1,  
             sender : this.ADMIN_ID,               
             text : 'Send location'
           });
           this.topic = 'weather';
-        } else if (text.toLowerCase().indexOf('bye bye') > -1) {
+        } else if (RegExp("\\bbye bye\\b").test(text)) {
           this.chatbotmessageList.push({
             id: this.chatbotmessageList.length + 1,  
             sender : this.ADMIN_ID,               
@@ -117,13 +115,18 @@ export class MessagingService {
           });
         }
       } else {
+
+        
         if (this.topic === 'weather') {
-          this.chatbotmessageList.push({
-            id: this.chatbotmessageList.length + 1,  
-            sender : this.ADMIN_ID,               
-            text : 'Your location is '+ text // place for function where we will call API from weather service in Internet
+          this.topic = ''
+          this.ws.getCurrentWeather(text).subscribe(
+            (value) => {
+              this.chatbotmessageList.push({
+              id: this.chatbotmessageList.length + 1,  
+              sender : this.ADMIN_ID,               
+              text : value
+              })
           });
-          this.topic = '';
         }
 
       }
@@ -132,19 +135,13 @@ export class MessagingService {
 
 /**
  * getRandomAnswer
- * 
  * [Description]: Retrieves a random answer from the provided array of strings.
- * 
  * @param answers: An array of strings containing the possible answers.
- * 
  * @returns The randomly selected answer as a string.
- * 
  * @example
  * const answers = ["Yes", "No", "Maybe"];
  * const randomAnswer = getRandomAnswer(answers);
  * console.log(randomAnswer); // Example output: "Maybe"
- * 
- * [Additional information or notes, if necessary]
  */
 
   getRandomAnswer(answers: string[]): string {
