@@ -6,7 +6,8 @@ import { Chatbotmessage } from './chatbotmessage';
 })
 export class MessagingService {
   topic : string = ''; 
-  chatbotmessageList : Chatbotmessage[] = []
+  chatbotmessageList : Chatbotmessage[] = [];
+  isActive : boolean = true;
   readonly ADMIN_ID = 1;
   date = new Date();
   readonly days : string[] = [
@@ -34,6 +35,11 @@ export class MessagingService {
   getAllMessages(): Chatbotmessage[] {
     return this.chatbotmessageList;
   }
+
+  getState(): boolean {
+    return this.isActive;
+  }
+
   constructor() { 
 
   }
@@ -95,6 +101,7 @@ export class MessagingService {
             sender : this.ADMIN_ID,               
             text : this.getRandomAnswer(this.goodbyeMessages)
           });
+          this.isActive = false;
 
         } else {
           // if we didn't find key words, we will reverse all string and send back
@@ -144,6 +151,5 @@ export class MessagingService {
     const randomIndex = Math.floor(Math.random() * answers.length);
     return answers[randomIndex];
   }
-
 
 }

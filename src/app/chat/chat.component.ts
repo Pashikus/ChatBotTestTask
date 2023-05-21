@@ -17,10 +17,13 @@ import { MessagingService } from '../messaging.service';
 
 export class ChatComponent {
 chatbotmessageList : Chatbotmessage[] = []  // List of messages
+isActive : boolean ;
 messagingService: MessagingService = inject(MessagingService);
+
 
 constructor() {
   this.chatbotmessageList = this.messagingService.getAllMessages();
+  this.isActive = this.messagingService.getState();
 }
 
 applyForm = new FormGroup({
@@ -30,8 +33,10 @@ applyForm = new FormGroup({
 
 
   submitApplication() {
+    
       this.messagingService.submitApplication(2, this.applyForm.value.text ?? '');
       this.applyForm.reset();
+      this.isActive = this.messagingService.getState();
   }
 
 
