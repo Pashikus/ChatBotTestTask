@@ -123,13 +123,28 @@ export class MessagingService {
       } else {
         if (this.topic === 'weather') {
           this.topic = '';
-          this.ws.getCurrentWeather(text).subscribe((value) => {
-            this.chatbotmessageList.push({
-              id: this.chatbotmessageList.length + 1,
-              sender: this.ADMIN_ID,
-              text: value,
-            });
-          });
+          try {
+            this.ws.getCurrentWeather(text).subscribe(
+              (value) => {
+                this.chatbotmessageList.push({
+                  id: this.chatbotmessageList.length + 1,
+                  sender: this.ADMIN_ID,
+                  text: value,
+                });
+              },
+              (error) => {
+                // Handle the error
+                console.log('An error occurred:', error)
+                this.chatbotmessageList.push({
+                  id: this.chatbotmessageList.length + 1,
+                  sender: this.ADMIN_ID,
+                  text: 'The city will not find'
+                });
+              }
+            );
+          } catch (error) {
+            console.error('An error occurred:', error);
+          }
         }
       }
     }
