@@ -6,15 +6,9 @@ import { WeatherService } from './weather.service';
 import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
-  imports: [
-    BrowserModule,
-    ChatComponent,
-    HttpClientModule,
-  ],
+  declarations: [AppComponent],
+  imports: [BrowserModule, ChatComponent, HttpClientModule],
   providers: [WeatherService],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

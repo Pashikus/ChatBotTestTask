@@ -1,13 +1,11 @@
-
-    <h2>Chat: </h2>
-    <div class="terminal" >
-        <p *ngFor="let chatbotmessage of chatbotmessageList"> {{chatbotmessage?.sender == 1 ? 'Admin' : 'You'  }} : 
-                                                              {{chatbotmessage?.text}} </p>
-    </div>
-    <div class="message-box">
-        <form [formGroup]="applyForm"  (submit)="submitApplication()" >
-            <input type="text"  formControlName="text" [disabled]="!isActive" />
-            <button class="button" [disabled]="!isActive" > Send </button>
-         </form>
-    </div>
-
+<h2>Chat: </h2>
+<div class="terminal">
+    <p *ngFor="let chatbotmessage of chatbotmessageList"> {{chatbotmessage?.sender == 1 ? 'Admin' : 'You' }} :
+        {{chatbotmessage?.text}} </p>
+</div>
+<div class="message-box">
+    <form [formGroup]="applyForm" (submit)="submitApplication()">
+        <input type="text" formControlName="text" [disabled]="!isActive" />
+        <button class="button" [disabled]="!isActive"> Send </button>
+    </form>
+</div>
