@@ -21,7 +21,7 @@ export class WeatherService {
 
   getCurrentWeather(city: string) {
     return this.http.get(
-      `https://wttr.in/${city.replace(/ /g, '+')}?format=%C+%t+%w&lang=en`,
+      encodeURI(`https://wttr.in/${city}?format=%C+%t+%w&lang=en`),
       { responseType: 'text' }
     );
   }
