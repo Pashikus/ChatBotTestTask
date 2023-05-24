@@ -22,9 +22,9 @@ import { MessagingService } from '../messaging.service';
   templateUrl: 'chat.component.html',
   styleUrls: ['./chat.component.css'],
 })
-export class ChatComponent {
+export class ChatComponent implements DoCheck {
   chatbotmessageList: Chatbotmessage[] = []; // List of messages
-  oldMessagCount: number = 0;
+  previousLengthMessageList : number = 0;
   userID: number = 2;
   isActive: boolean = true;
   messagingService: MessagingService = inject(MessagingService);
@@ -38,6 +38,15 @@ export class ChatComponent {
   applyForm = new FormGroup({
     text: new FormControl({ value: '', disabled: false }, Validators.required),
   });
+
+  ngDoCheck() {  
+    if (this.previousLengthMessageList != this.chatbotmessageList.length) {
+      setTimeout(() => {
+        this.scrollTerminalToBottom();
+      }, 20);
+      this.previousLengthMessageList = this.chatbotmessageList.length;
+    }
+  }
 
   scrollTerminalToBottom(): void {
     const contentElement =
@@ -60,8 +69,5 @@ export class ChatComponent {
     );
     this.applyForm.reset();
     this.isActive = this.messagingService.getState();
-    setTimeout(() => {
-      this.scrollTerminalToBottom();
-    }, 20);
   }
 }
