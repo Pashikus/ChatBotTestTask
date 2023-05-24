@@ -5,7 +5,7 @@
 </div>
 <div class="message-box">
     <form [formGroup]="applyForm" (submit)="submitApplication()">
-        <input type="text" formControlName="text" [disabled]="!isActive" />
+        <input type="text" formControlName="text" (ngModelChange)="onIsActiveChange()" />
         <button class="button" [disabled]="!isActive"> Send </button>
     </form>
 </div>

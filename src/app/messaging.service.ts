@@ -1,6 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { Chatbotmessage } from './chatbotmessage.interface';
 import { WeatherService } from './weather.service';
+import { ChatComponent } from './chat/chat.component';
 
 @Injectable({
   providedIn: 'root',
@@ -72,14 +73,14 @@ export class MessagingService {
       });
       // if we don't have a conversation topic = '', we will find one of key word
       if (this.topic === '') {
-        if (RegExp('\\bday\\b').test(text)) {
+        if (RegExp('\\bday\\b').test(text.toLowerCase())) {
           // if we have "day" in the text
           this.chatbotmessageList.push({
             id: this.chatbotmessageList.length + 1,
             sender: this.ADMIN_ID,
             text: this.days[this.date.getDay()],
           });
-        } else if (RegExp('\\btime\\b').test(text)) {
+        } else if (RegExp('\\btime\\b').test(text.toLowerCase())) {
           // if we have "time" in the text
           this.chatbotmessageList.push({
             id: this.chatbotmessageList.length + 1,
@@ -91,7 +92,7 @@ export class MessagingService {
               ':' +
               this.date.getSeconds().toString(),
           });
-        } else if (RegExp('\\bweather\\b').test(text)) {
+        } else if (RegExp('\\bweather\\b').test(text.toLowerCase())) {
           // if we have "weather" in the text, we make a question and put "weather" to topic
           this.chatbotmessageList.push({
             id: this.chatbotmessageList.length + 1,
@@ -99,7 +100,7 @@ export class MessagingService {
             text: 'Send location',
           });
           this.topic = 'weather';
-        } else if (RegExp('\\bbye bye\\b').test(text)) {
+        } else if (RegExp('\\bbye bye\\b').test(text.toLowerCase())) {
           // if we have "bye bye" in the text, send a good bue message and disable Forms.
           this.chatbotmessageList.push({
             id: this.chatbotmessageList.length + 1,
@@ -134,11 +135,11 @@ export class MessagingService {
               },
               (error) => {
                 // Handle the error
-                console.log('An error occurred:', error)
+                console.log('An error occurred:', error);
                 this.chatbotmessageList.push({
                   id: this.chatbotmessageList.length + 1,
                   sender: this.ADMIN_ID,
-                  text: 'The city will not find'
+                  text: 'The city was not found',
                 });
               }
             );

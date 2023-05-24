@@ -5,6 +5,7 @@ import { ChatComponent } from './chat/chat.component';
 import { WeatherService } from './weather.service';
 import { HttpClientModule } from '@angular/common/http';
 
+
 @NgModule({
   declarations: [AppComponent],
   imports: [BrowserModule, ChatComponent, HttpClientModule],
